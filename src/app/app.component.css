@@ -8,3 +8,6 @@
 .search-box {
     text-align:center;
 }
+li {
+    list-style: none;
+}
