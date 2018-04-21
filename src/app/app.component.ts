@@ -3,9 +3,8 @@ import { OnInit } from '@angular/core';
 
 import skygear from 'skygear';
 import { SkygearService } from './skygear.service';
+// import { skygearCloud } from 'skygear/cloud';
 
-
-const Note = skygear.Record.extend('Note');
 
 @Component({
   selector: 'app-root',
@@ -13,12 +12,14 @@ const Note = skygear.Record.extend('Note');
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  infoDatas: any;
+  inputValue: any;
   title = 'Loading...';
   skygear = null;
-
+  
   constructor(private skygearService: SkygearService) {
   }
-
+  
   ngOnInit(): void {
     this.skygearService.getSkygear()
     .then((skygear) => {
@@ -35,17 +36,21 @@ export class AppComponent implements OnInit {
       this.title = "Cannot configure skygear";
     });
   }
-
-  addNewRecord() {
+  
+  checkRecord() {
+    console.log(this.inputValue)
     this.skygearService.getSkygear()
     .then((skygear) => {
       this.skygear = skygear;
-      return this.skygear.publicDB.save(new Note({
-        'content': 'Hello World'
-      }));
+      const stealJob = skygear.Record.extend('stealjobs');
+      const stealJobQuery = new skygear.Query(stealJob);
+      stealJobQuery.equalTo('category', this.inputValue);
+      return this.skygear.publicDB.query(stealJobQuery);
     })
     .then((record)=> {
-      this.title = "Saved record: " + record.id;
+      // this.title = "Saved record: " + record.id;
+      console.log(record)
+      this.infoDatas = record;
     });
   }
 }

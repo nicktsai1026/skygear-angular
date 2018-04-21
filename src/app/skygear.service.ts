@@ -9,8 +9,8 @@ export class SkygearService {
       return Promise.resolve(skygear);
     }
     let promise = skygear.config({
-      'endPoint': 'https://skygearangular.skygeario.com/', // trailing slash is required
-      'apiKey': '8397832bcb9d4c57b5833b532ef1a77c',
+      'endPoint': 'https://searcheng.skygeario.com/',
+      'apiKey': '5053d9652cee4030a425a3f08d90ac8c',
     });
     promise.then(()=> this.isConfigurated = true);
     return promise;
